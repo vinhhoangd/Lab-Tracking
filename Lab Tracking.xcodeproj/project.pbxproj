@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		908B24A62DDF90C400F021D7 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 908B24A52DDF90C400F021D7 /* FirebaseAI */; };
+		908B24A82DDF90C400F021D7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 908B24A72DDF90C400F021D7 /* FirebaseAnalytics */; };
+		908B24AA2DDF90C400F021D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 908B24A92DDF90C400F021D7 /* FirebaseAnalyticsOnDeviceConversion */; };
+		908B24AC2DDF90C400F021D7 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 908B24AB2DDF90C400F021D7 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		908B24AE2DDF90C400F021D7 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 908B24AD2DDF90C400F021D7 /* FirebaseAppCheck */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		90C4EB382DDE7DA8003CE9BF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +60,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				908B24A82DDF90C400F021D7 /* FirebaseAnalytics in Frameworks */,
+				908B24AA2DDF90C400F021D7 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				908B24A62DDF90C400F021D7 /* FirebaseAI in Frameworks */,
+				908B24AE2DDF90C400F021D7 /* FirebaseAppCheck in Frameworks */,
+				908B24AC2DDF90C400F021D7 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +125,11 @@
 			);
 			name = "Lab Tracking";
 			packageProductDependencies = (
+				908B24A52DDF90C400F021D7 /* FirebaseAI */,
+				908B24A72DDF90C400F021D7 /* FirebaseAnalytics */,
+				908B24A92DDF90C400F021D7 /* FirebaseAnalyticsOnDeviceConversion */,
+				908B24AB2DDF90C400F021D7 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				908B24AD2DDF90C400F021D7 /* FirebaseAppCheck */,
 			);
 			productName = "Lab Tracking";
 			productReference = 90C4EB2A2DDE7DA7003CE9BF /* Lab Tracking.app */;
@@ -195,6 +213,9 @@
 			);
 			mainGroup = 90C4EB212DDE7DA7003CE9BF;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 90C4EB2B2DDE7DA7003CE9BF /* Products */;
 			projectDirPath = "";
@@ -395,8 +416,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 26GC6L3RFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Lab-Tracking-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -422,8 +445,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 26GC6L3RFC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Lab-Tracking-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -550,6 +575,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.13.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		908B24A52DDF90C400F021D7 /* FirebaseAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAI;
+		};
+		908B24A72DDF90C400F021D7 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		908B24A92DDF90C400F021D7 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		908B24AB2DDF90C400F021D7 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		908B24AD2DDF90C400F021D7 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 908B24A42DDF90C400F021D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 90C4EB222DDE7DA7003CE9BF /* Project object */;
 }
