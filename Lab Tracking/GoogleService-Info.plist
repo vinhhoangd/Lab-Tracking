@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCZI6IQcdUQubbnRX9uDi3VwonGUpVwpNc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>81296036181</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.hoangvinh.LabTracking.Lab-Tracking</string>
+	<key>PROJECT_ID</key>
+	<string>labtrackingapp</string>
+	<key>STORAGE_BUCKET</key>
+	<string>labtrackingapp.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:81296036181:ios:d11a66aa115f1da2c49fdc</string>
+</dict>
+</plist>
