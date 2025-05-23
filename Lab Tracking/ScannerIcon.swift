@@ -1,13 +1,8 @@
-//
-//  ScannerIcon.swift
-//  Lab Tracking
-//
-//  Created by Vinh Hoang Duc on 5/22/25.
-//
 import SwiftUI
 import AVFoundation
 
 struct ScannerView: UIViewControllerRepresentable {
+    /// Completion handler returns the scanned string once detected
     var completion: (String) -> Void
 
     func makeCoordinator() -> Coordinator {
@@ -15,9 +10,9 @@ struct ScannerView: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: Context) -> ScannerViewController {
-        let controller = ScannerViewController()
-        controller.delegate = context.coordinator
-        return controller
+        let vc = ScannerViewController()
+        vc.delegate = context.coordinator
+        return vc
     }
 
     func updateUIViewController(_ uiViewController: ScannerViewController, context: Context) {}
@@ -29,12 +24,15 @@ struct ScannerView: UIViewControllerRepresentable {
             self.completion = completion
         }
 
-        func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-            if let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-               let stringValue = metadataObject.stringValue {
-                completion(stringValue)
-            }
+        func metadataOutput(_ output: AVCaptureMetadataOutput,
+                            didOutput metadataObjects: [AVMetadataObject],
+                            from connection: AVCaptureConnection) {
+            guard let first = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+                  let code = first.stringValue
+            else { return }
+
+            // Pass back and stop further scanning
+            completion(code)
         }
     }
 }
-
