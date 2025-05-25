@@ -1,64 +1,41 @@
-//
-//  ScannerViewController.swift
-//  Lab Tracking
-//
-//  Created by Vinh Hoang Duc on 5/22/25.
-//
 import UIKit
 import AVFoundation
 
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-    var captureSession: AVCaptureSession!
-    var previewLayer: AVCaptureVideoPreviewLayer!
-    var delegate: AVCaptureMetadataOutputObjectsDelegate?
+  var captureSession = AVCaptureSession()
+  var previewLayer: AVCaptureVideoPreviewLayer!
+  var delegate: AVCaptureMetadataOutputObjectsDelegate?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor.black
-        captureSession = AVCaptureSession()
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    view.backgroundColor = .black
 
-        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
-            print("Failed to get camera")
-            return
-        }
+    guard let device = AVCaptureDevice.default(for: .video),
+          let input = try? AVCaptureDeviceInput(device: device),
+          captureSession.canAddInput(input)
+    else { return }
 
-        guard let videoInput = try? AVCaptureDeviceInput(device: videoCaptureDevice) else {
-            print("Failed to create input")
-            return
-        }
+    captureSession.addInput(input)
 
-        if captureSession.canAddInput(videoInput) {
-            captureSession.addInput(videoInput)
-        } else {
-            print("Failed to add input to session")
-            return
-        }
+    let output = AVCaptureMetadataOutput()
+    guard captureSession.canAddOutput(output) else { return }
+    captureSession.addOutput(output)
 
-        let metadataOutput = AVCaptureMetadataOutput()
-        if captureSession.canAddOutput(metadataOutput) {
-            captureSession.addOutput(metadataOutput)
+    output.setMetadataObjectsDelegate(delegate, queue: .main)
+    output.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
 
-            metadataOutput.setMetadataObjectsDelegate(delegate, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
-        } else {
-            print("Could not add output")
-            return
-        }
+    previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+    previewLayer.frame = view.layer.bounds
+    previewLayer.videoGravity = .resizeAspectFill
+    view.layer.addSublayer(previewLayer)
 
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = view.layer.bounds
-        previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
+    captureSession.startRunning()
+  }
 
-        captureSession.startRunning()
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    if captureSession.isRunning {
+      captureSession.stopRunning()
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        if captureSession.isRunning {
-            captureSession.stopRunning()
-        }
-    }
+  }
 }
-

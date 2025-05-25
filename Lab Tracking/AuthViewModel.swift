@@ -8,7 +8,7 @@ import Combine
 class AuthViewModel: ObservableObject {
   
   @Published var user: User?         // FirebaseAuth.User
-  @ublished var isLoading = false   // optional: show a spinner
+  @Published var isLoading = false   // optional: show a spinner
   
   private var handle: AuthStateDidChangeListenerHandle?
 
