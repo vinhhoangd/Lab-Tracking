@@ -65,7 +65,7 @@ struct LoginView: View {
   }
   
   private func handleAuth() {
-    let action = isSignUpMode
+      let _: () = isSignUpMode
       ? auth.signUp(email: email, password: password) { result in onAuthResult(result) }
       : auth.signIn(email: email, password: password) { result in onAuthResult(result) }
   }
