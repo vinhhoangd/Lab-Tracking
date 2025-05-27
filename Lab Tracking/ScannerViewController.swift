@@ -1,68 +1,87 @@
 import UIKit
 import AVFoundation
+import AudioToolbox
 
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
-  var captureSession = AVCaptureSession()
-  var previewLayer: AVCaptureVideoPreviewLayer!
-  var delegate: AVCaptureMetadataOutputObjectsDelegate?
+    var captureSession = AVCaptureSession()
+    var previewLayer: AVCaptureVideoPreviewLayer!
+    var delegate: AVCaptureMetadataOutputObjectsDelegate?
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    view.backgroundColor = .black
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .black
 
-    // Camera input
-    guard let device = AVCaptureDevice.default(for: .video),
-          let input = try? AVCaptureDeviceInput(device: device),
-          captureSession.canAddInput(input)
-    else { return }
+        // Thiết lập input từ camera
+        guard let device = AVCaptureDevice.default(for: .video),
+              let input = try? AVCaptureDeviceInput(device: device),
+              captureSession.canAddInput(input) else {
+            print("❌ Không thể thiết lập input từ camera")
+            return
+        }
 
-    captureSession.addInput(input)
+        captureSession.addInput(input)
 
-    // Output
-    let output = AVCaptureMetadataOutput()
-    guard captureSession.canAddOutput(output) else { return }
-    captureSession.addOutput(output)
-    output.setMetadataObjectsDelegate(delegate, queue: .main)
-    output.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
+        // Thiết lập output để nhận barcode/QR
+        let output = AVCaptureMetadataOutput()
+        guard captureSession.canAddOutput(output) else {
+            print("❌ Không thể thiết lập output")
+            return
+        }
 
-    // Preview
-    previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-    previewLayer.frame = view.layer.bounds
-    previewLayer.videoGravity = .resizeAspectFill
-    view.layer.addSublayer(previewLayer)
+        captureSession.addOutput(output)
+        output.setMetadataObjectsDelegate(self, queue: .main)
+        output.metadataObjectTypes = [.qr, .ean8, .ean13, .pdf417]
 
-    // ✅ Add Close (X) Button
-    let closeButton = UIButton(type: .system)
-    closeButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-    closeButton.tintColor = .white
-    closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-    closeButton.layer.cornerRadius = 20
-    closeButton.translatesAutoresizingMaskIntoConstraints = false
-    closeButton.addTarget(self, action: #selector(dismissScanner), for: .touchUpInside)
-    view.addSubview(closeButton)
+        // Xem trước camera
+        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        previewLayer.frame = view.layer.bounds
+        previewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(previewLayer)
 
-    // 🧭 Position button at top-right
-    NSLayoutConstraint.activate([
-      closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-      closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-      closeButton.widthAnchor.constraint(equalToConstant: 40),
-      closeButton.heightAnchor.constraint(equalToConstant: 40)
-    ])
+        // Bắt đầu quét ở thread nền
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.captureSession.startRunning()
+        }
 
-    // 🔁 Start scanning in background
-    DispatchQueue.global(qos: .userInitiated).async {
-      self.captureSession.startRunning()
+        // Thêm nút "X" để quay lại
+        let closeButton = UIButton(type: .system)
+        closeButton.setTitle("✕", for: .normal)
+        closeButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        closeButton.tintColor = .white
+        closeButton.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        closeButton.layer.cornerRadius = 20
+        closeButton.frame = CGRect(x: 20, y: 50, width: 40, height: 40)
+        closeButton.addTarget(self, action: #selector(dismissScanner), for: .touchUpInside)
+        view.addSubview(closeButton)
     }
-  }
 
-  @objc func dismissScanner() {
-    dismiss(animated: true, completion: nil)
-  }
+    func metadataOutput(_ output: AVCaptureMetadataOutput,
+                        didOutput metadataObjects: [AVMetadataObject],
+                        from connection: AVCaptureConnection) {
+        if let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+           let code = metadataObject.stringValue {
 
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    if captureSession.isRunning {
-      captureSession.stopRunning()
+            // Rung
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+
+            // Gọi delegate (ScannerView sẽ xử lý completion)
+            if let delegate = delegate as? ScannerView.Coordinator {
+                delegate.metadataOutput(output, didOutput: metadataObjects, from: connection)
+            }
+
+            // Đóng scanner
+            dismiss(animated: true)
+        }
     }
-  }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
+    }
+
+    @objc func dismissScanner() {
+        dismiss(animated: true)
+    }
 }

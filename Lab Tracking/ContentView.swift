@@ -7,7 +7,8 @@ struct ContentView: View {
   @State private var searchText = ""
   @State private var isShowingScanner = false
   @State private var scannedCode: String?
-
+  @State private var showAddItemView = false
+  @State private var newScannedCode: String?
   var body: some View {
     NavigationView {
       ZStack {
