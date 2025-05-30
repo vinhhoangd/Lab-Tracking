@@ -3,8 +3,10 @@
 import Foundation
 import FirebaseAuth
 import Combine
+import GoogleSignIn
+import GoogleSignInSwift
+import FirebaseCore
 
-/// Manages the current Firebase user and exposes sign-in / sign-out methods.
 class AuthViewModel: ObservableObject {
   
   @Published var user: User?         // FirebaseAuth.User
@@ -13,7 +15,7 @@ class AuthViewModel: ObservableObject {
   private var handle: AuthStateDidChangeListenerHandle?
 
   init() {
-    // Watch for auth changes
+
     handle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
       self?.user = user
     }
@@ -55,7 +57,37 @@ class AuthViewModel: ObservableObject {
       try Auth.auth().signOut()
       self.user = nil
     } catch {
-      print("⚠️ Failed to sign out:", error.localizedDescription)
+      print("Failed to sign out:", error.localizedDescription)
     }
   }
+        
+    func signInWithGoogle(presenting viewController: UIViewController, completion: @escaping (Result<User, Error>) -> Void) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+
+        let config = GIDConfiguration(clientID: clientID)
+        GIDSignIn.sharedInstance.configuration = config
+
+        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let user = result?.user,
+                  let idToken = user.idToken?.tokenString else {
+                completion(.failure(NSError(domain: "SignInError", code: -1)))
+                return
+            }
+
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+
+            Auth.auth().signIn(with: credential) { result, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let user = result?.user {
+                    completion(.success(user))
+                }
+            }
+        }
+    }
 }

@@ -6,6 +6,8 @@
 	<string>81296036181-n03ut5dldleavn6te2sii5ebq54s0rpq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.81296036181-n03ut5dldleavn6te2sii5ebq54s0rpq</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.googleusercontent.apps.81296036181-n03ut5dldleavn6te2sii5ebq54s0rpq</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCZI6IQcdUQubbnRX9uDi3VwonGUpVwpNc</string>
 	<key>GCM_SENDER_ID</key>
@@ -19,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>labtrackingapp.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:81296036181:ios:d11a66aa115f1da2c49fdc</string>
 </dict>

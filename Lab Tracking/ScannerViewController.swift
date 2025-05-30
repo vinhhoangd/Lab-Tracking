@@ -15,7 +15,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         guard let device = AVCaptureDevice.default(for: .video),
               let input = try? AVCaptureDeviceInput(device: device),
               captureSession.canAddInput(input) else {
-            print("❌ Không thể thiết lập input từ camera")
+            print("Cannot set input from camera")
             return
         }
 
@@ -24,7 +24,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         // Thiết lập output để nhận barcode/QR
         let output = AVCaptureMetadataOutput()
         guard captureSession.canAddOutput(output) else {
-            print("❌ Không thể thiết lập output")
+            print("Cannot set output")
             return
         }
 

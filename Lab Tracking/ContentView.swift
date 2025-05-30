@@ -9,6 +9,7 @@ struct ContentView: View {
   @State private var scannedCode: String?
   @State private var showAddItemView = false
   @State private var newScannedCode: String?
+    
   var body: some View {
     NavigationView {
       ZStack {
@@ -63,7 +64,7 @@ struct ContentView: View {
           }
         }
 
-        // Log Out (right)
+        // Log Out
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Log Out") {
             auth.signOut()
